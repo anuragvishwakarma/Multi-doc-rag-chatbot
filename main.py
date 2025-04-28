@@ -1,5 +1,7 @@
 import os
 import json
+from dotenv import load_dotenv
+
 
 import streamlit as st
 from langchain_huggingface import HuggingFaceEmbeddings
@@ -7,13 +9,15 @@ from langchain_chroma import Chroma
 from langchain_groq import ChatGroq
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
+import groq
+
+
+load_dotenv()
 
 
 working_dir = os.path.dirname(os.path.abspath(__file__))
 
-config_data = json.load(open(f"{working_dir}/config.json"))
-GROQ_API_KEY = config_data["GROQ_API_KEY"]
-os.environ["GROQ_API_KEY"] = GROQ_API_KEY
+
 
 
 def setup_vectorstore():
@@ -46,7 +50,13 @@ st.set_page_config(page_title="Chat with your documents",
                    page_icon="📁", 
                    layout="wide")
 
+
+
 st.title("📁 Chat with your documents")
+
+GROQ_API_KEY = st.text_input("Please enter your GROQ API Key here: ", value="",type="password")
+client = groq.Groq(api_key=GROQ_API_KEY)
+
 
 
 if "chat_history" not in st.session_state:

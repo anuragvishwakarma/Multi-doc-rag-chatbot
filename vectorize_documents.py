@@ -4,6 +4,8 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
 
 
+
+
 # Loading the embeddings model
 embeddings = HuggingFaceEmbeddings()
 
